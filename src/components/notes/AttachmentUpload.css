@@ -1,0 +1,53 @@
+.attachment-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 18px;
+}
+
+.attachment-upload__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  color: var(--heading);
+}
+
+.attachment-upload__copy {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+}
+
+.attachment-upload__picker {
+  display: grid;
+  gap: 8px;
+  padding: 24px 18px;
+  border-radius: 14px;
+  border: 2px dashed rgba(191, 199, 218, 0.95);
+  background: rgba(244, 246, 255, 0.7);
+  justify-items: center;
+  text-align: center;
+}
+
+.attachment-upload__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.attachment-upload__picker input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+}
+
+.attachment-upload__filename {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.attachment-upload__error {
+  margin: 0;
+  color: var(--danger);
+}

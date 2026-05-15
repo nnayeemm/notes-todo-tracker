@@ -1,0 +1,57 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.field__control {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(244, 246, 255, 0.96);
+  color: var(--text);
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.field__control::placeholder {
+  color: #98a3b3;
+}
+
+.field__control:focus {
+  border-color: rgba(13, 148, 136, 0.42);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+  background: #ffffff;
+}
+
+.field__control--textarea {
+  min-height: 152px;
+  padding: 14px;
+  resize: vertical;
+}
+
+.field__hint,
+.field__error {
+  font-size: 0.85rem;
+}
+
+.field__hint {
+  color: var(--text-muted);
+}
+
+.field__error {
+  color: var(--danger);
+}

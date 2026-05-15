@@ -1,0 +1,33 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: 18px;
+}
+
+.empty-state__eyebrow {
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.empty-state__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  color: var(--heading);
+}
+
+.empty-state__description {
+  margin: 0;
+  color: var(--text-muted);
+  max-width: 48ch;
+  line-height: 1.6;
+}
+
+.empty-state__action {
+  margin-top: 8px;
+}

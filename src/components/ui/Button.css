@@ -1,0 +1,76 @@
+.button {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.button--md {
+  min-height: 42px;
+  padding: 0 16px;
+}
+
+.button--sm {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 0.82rem;
+}
+
+.button--full-width {
+  width: 100%;
+}
+
+.button--primary {
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--primary), var(--primary-strong));
+  box-shadow: 0 10px 22px rgba(13, 148, 136, 0.2);
+}
+
+.button--secondary {
+  color: var(--heading);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.button--ghost {
+  color: var(--text);
+  background: var(--surface-soft);
+  border-color: rgba(216, 222, 234, 0.85);
+}
+
+.button--danger {
+  color: #ffffff;
+  background: linear-gradient(180deg, #c84d4d, #b42d2d);
+  box-shadow: 0 10px 22px rgba(200, 77, 77, 0.18);
+}
+
+.button--success {
+  color: #ffffff;
+  background: linear-gradient(180deg, #72a7a1, #5d8f8b);
+  box-shadow: 0 10px 22px rgba(114, 167, 161, 0.18);
+}
+
+.button__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+}

@@ -1,0 +1,22 @@
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text-muted);
+  border-radius: 18px;
+}
+
+.loading-indicator__spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 3px solid rgba(13, 148, 136, 0.16);
+  border-top-color: var(--primary);
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

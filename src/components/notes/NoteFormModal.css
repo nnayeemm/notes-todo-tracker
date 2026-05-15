@@ -1,0 +1,101 @@
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.note-form__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  width: fit-content;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.note-form__checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+.note-form__attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.note-form__attachments-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.note-form__attachments-title {
+  margin: 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+}
+
+.note-form__attachments-text,
+.note-form__attachments-empty {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.note-form__file-picker {
+  display: grid;
+  gap: 8px;
+}
+
+.note-form__file-picker input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(244, 246, 255, 0.96);
+}
+
+.note-form__file-list {
+  display: grid;
+  gap: 10px;
+}
+
+.note-form__file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.note-form__file-name {
+  min-width: 0;
+  color: var(--heading);
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.note-form__file-remove {
+  border: none;
+  background: transparent;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.note-form__attachments-empty-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px dashed var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}

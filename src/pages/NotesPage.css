@@ -1,0 +1,19 @@
+.notes-page__toolbar {
+  min-width: min(100%, 340px);
+  gap: 14px;
+}
+
+.notes-page__search {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .notes-page__toolbar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .notes-page__search {
+    width: 100%;
+  }
+}

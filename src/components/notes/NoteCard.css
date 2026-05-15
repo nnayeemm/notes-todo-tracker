@@ -1,0 +1,114 @@
+.note-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 246px;
+  padding: 18px 20px 16px;
+  border-radius: 18px;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 42px rgba(31, 41, 55, 0.08);
+  border-color: rgba(13, 148, 136, 0.2);
+}
+
+.note-card:focus-visible {
+  outline: 3px solid rgba(13, 148, 136, 0.18);
+  outline-offset: 3px;
+}
+
+.note-card__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.note-card__topline-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.note-card__pin-action-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.note-card__category,
+.note-card__pin {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.note-card__category {
+  background: rgba(13, 148, 136, 0.14);
+  color: var(--primary);
+}
+
+.note-card__category--muted {
+  background: rgba(31, 41, 55, 0.08);
+  color: var(--text-muted);
+}
+
+.note-card__pin {
+  background: rgba(31, 41, 55, 0.06);
+  color: var(--text-muted);
+}
+
+.note-card__title {
+  margin: 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.note-card__preview {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.55;
+  font-size: 0.98rem;
+}
+
+.note-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.note-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(216, 222, 234, 0.9);
+}
+
+.note-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+
+@media (max-width: 720px) {
+  .note-card {
+    min-height: 0;
+  }
+}

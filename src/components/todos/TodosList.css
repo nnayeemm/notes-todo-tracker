@@ -1,0 +1,5 @@
+.todos-list {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
