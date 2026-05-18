@@ -1,5 +1,5 @@
-const fallbackBaseUrl = 'http://localhost:8000'
-
+const fallbackBaseUrl =
+  'https://notes-todo-tracker-backend.onrender.com'
 export const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ?? fallbackBaseUrl
 ).replace(/\/$/, '')
