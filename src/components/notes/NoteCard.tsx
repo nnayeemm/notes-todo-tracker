@@ -115,38 +115,44 @@ export function NoteCard({
       {/* ── Title ── */}
       <h2 className="note-card__title">{note.title}</h2>
 
-      {/* ── Preview / description ── */}
-      <div className="note-card__preview-wrap">
-        <p className="note-card__preview">
-          {content ? displayedContent : <em className="note-card__preview--empty">No content yet.</em>}
-        </p>
-        {isTruncatable && (
-          <button
-            className="note-card__read-more"
-            onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v) }}
-            type="button"
-          >
-            {expanded ? 'Show less' : 'Read more'}
-          </button>
-        )}
+      {/* ── Content (grow) ── */}
+      <div className="note-card__content">
+        {/* ── Preview / description ── */}
+        <div className="note-card__preview-wrap">
+          <p className="note-card__preview">
+            {content ? displayedContent : <em className="note-card__preview--empty">No content yet.</em>}
+          </p>
+          {isTruncatable && (
+            <button
+              className="note-card__read-more"
+              onClick={(e) => {
+                e.stopPropagation()
+                setExpanded((v) => !v)
+              }}
+              type="button"
+            >
+              {expanded ? 'Show less' : 'Read more'}
+            </button>
+          )}
+        </div>
+
+        {/* ── Divider ── */}
+        <div className="note-card__divider" aria-hidden="true" />
+
+        {/* ── Metadata row ── */}
+        <div className="note-card__meta">
+          <span className="note-card__meta-item">
+            <Icon className="note-card__meta-icon" name="calendar" />
+            {formatDateTime(note.updated_at)}
+          </span>
+          <span className="note-card__meta-item">
+            <Icon className="note-card__meta-icon" name="paperclip" />
+            {note.attachment_count} {note.attachment_count === 1 ? 'file' : 'files'}
+          </span>
+        </div>
       </div>
 
-      {/* ── Divider ── */}
-      <div className="note-card__divider" aria-hidden="true" />
-
-      {/* ── Metadata row ── */}
-      <div className="note-card__meta">
-        <span className="note-card__meta-item">
-          <Icon className="note-card__meta-icon" name="calendar" />
-          {formatDateTime(note.updated_at)}
-        </span>
-        <span className="note-card__meta-item">
-          <Icon className="note-card__meta-icon" name="paperclip" />
-          {note.attachment_count} {note.attachment_count === 1 ? 'file' : 'files'}
-        </span>
-      </div>
-
-      {/* ── Action buttons ── */}
+      {/* ── Footer / Action buttons (pinned to bottom) ── */}
       <div
         className="note-card__actions"
         onClick={(e) => e.stopPropagation()}

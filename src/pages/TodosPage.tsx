@@ -275,8 +275,13 @@ export function TodosPage() {
             setEditingTodo(todo)
             setIsFormOpen(true)
           }}
+          onCreateNew={() => {
+            setEditingTodo(null)
+            setIsFormOpen(true)
+          }}
         />
       )}
+
 
       {completingTodoId ? (
         <p className="todos-page__status">Updating todo #{completingTodoId}...</p>

@@ -1,5 +1,6 @@
 import type { NoteSummary, Todo } from '../../types/api'
 import { TodoCard } from './TodoCard'
+import { AddNewTodoCard } from './AddNewTodoCard'
 import './TodosList.css'
 
 interface TodosListProps {
@@ -8,8 +9,10 @@ interface TodosListProps {
   onComplete: (todo: Todo) => void
   onDelete: (todo: Todo) => void
   onEdit: (todo: Todo) => void
+  onCreateNew: () => void
   todos: Todo[]
 }
+
 
 export function TodosList({
   completingTodoId,
@@ -17,6 +20,7 @@ export function TodosList({
   onComplete,
   onDelete,
   onEdit,
+  onCreateNew,
   todos,
 }: TodosListProps) {
   return (
@@ -30,8 +34,11 @@ export function TodosList({
           onDelete={onDelete}
           onEdit={onEdit}
           todo={todo}
+          
         />
-      ))}
+        
+      ))}      <AddNewTodoCard onClick={onCreateNew} />
+
     </div>
   )
 }
