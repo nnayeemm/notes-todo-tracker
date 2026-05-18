@@ -7,6 +7,7 @@ type ModalSize = 'sm' | 'md' | 'lg'
 interface ModalProps {
   children: ReactNode
   footer?: ReactNode
+  headerAction?: ReactNode
   isOpen: boolean
   onClose: () => void
   size?: ModalSize
@@ -18,6 +19,7 @@ export function Modal({
   children,
   description,
   footer,
+  headerAction,
   isOpen,
   onClose,
   size = 'md',
@@ -61,9 +63,14 @@ export function Modal({
         onClick={(event) => event.stopPropagation()}
       >
         <div className="modal__header">
-          <div>
-            <h2 className="modal__title">{title}</h2>
-            {description ? <p className="modal__description">{description}</p> : null}
+          <div className="modal__header-main">
+            <div>
+              <h2 className="modal__title">{title}</h2>
+              {description ? <p className="modal__description">{description}</p> : null}
+            </div>
+            {headerAction ? (
+              <div className="modal__header-action">{headerAction}</div>
+            ) : null}
           </div>
           <button
             aria-label="Close modal"

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Attachment, NoteDetail, NoteSummary, NoteUpsertPayload } from '../../types/api'
 import { AttachmentList } from './AttachmentList'
-import { Button } from '../ui/Button'
+
 import { ErrorMessage } from '../ui/ErrorMessage'
 import { Icon } from '../ui/Icon'
 import { Input } from '../ui/Input'
@@ -90,20 +90,55 @@ export function NoteFormModal({
       }
       footer={
         <>
-         <Button variant="secondary" onClick={onClose}>
-            Cancel
-          </Button>
+          <button
+            aria-label="Cancel"
+            className="modal-icon-btn modal-icon-btn--cancel"
+            onClick={onClose}
+            type="button"
+          >
+            <Icon name="close" className="modal-icon-btn__icon" />
+          </button>
           {hasExistingNote && onDeleteNote ? (
-            <Button variant="danger" onClick={onDeleteNote}>
-              <Icon className="button__icon" name="delete" />
-              Delete note
-            </Button>
+            <button
+              aria-label="Delete note"
+              className="modal-icon-btn modal-icon-btn--delete"
+              onClick={onDeleteNote}
+              type="button"
+            >
+              <Icon name="delete" className="modal-icon-btn__icon" />
+            </button>
           ) : null}
-         
-          <Button form="note-form" isLoading={isSubmitting} type="submit">
-            Save note
-          </Button>
+          <button
+            aria-label={isSubmitting ? 'Saving…' : 'Save note'}
+            className="modal-icon-btn modal-icon-btn--save"
+            disabled={isSubmitting}
+            form="note-form"
+            type="submit"
+          >
+            <Icon name={isSubmitting ? 'undo' : 'checkmark'} className="modal-icon-btn__icon" />
+          </button>
         </>
+      }
+      headerAction={
+        <label aria-label="Pin this note" className="note-form__pin-toggle">
+          <span className="note-form__pin-label">
+            <Icon className="note-form__pin-icon" name="pin" />
+            Pin
+          </span>
+          <span
+            aria-checked={isPinned}
+            className={`note-form__toggle-track${isPinned ? ' note-form__toggle-track--on' : ''}`}
+            role="switch"
+          >
+            <span className="note-form__toggle-thumb" />
+          </span>
+          <input
+            checked={isPinned}
+            className="note-form__toggle-input"
+            onChange={(e) => setIsPinned(e.target.checked)}
+            type="checkbox"
+          />
+        </label>
       }
       isOpen={isOpen}
       onClose={onClose}
@@ -146,18 +181,6 @@ export function NoteFormModal({
           textarea
           value={content}
         />
-
-        <label className="note-form__checkbox">
-          <input
-            checked={isPinned}
-            onChange={(event) => {
-              setFormError('')
-              setIsPinned(event.target.checked)
-            }}
-            type="checkbox"
-          />
-          <span>Pin this note</span>
-        </label>
 
         <section className="note-form__attachments">
           <div className="note-form__attachments-copy">

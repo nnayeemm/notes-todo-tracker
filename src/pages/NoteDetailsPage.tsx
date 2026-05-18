@@ -223,21 +223,18 @@ export function NoteDetailsPage() {
 
       <section className="note-details-page__sheet surface">
         <div className="note-details-page__sheet-header">
-          <div className="page__heading">
-            <div className="meta-row">
-              <p className="page__eyebrow">Note details</p>
-              <span className="page__count">Updated {formatDateTime(note.updated_at)}</span>
-            </div>
-            <h1 className="page__title">{note.title}</h1>
-            <p className="page__subtitle">Review note content and open the files already linked to this note.</p>
-          </div>
-
-          <div className="page__toolbar">
-            <Button variant="secondary" onClick={() => setIsFormOpen(true)}>
+          <div className="note-details-page__sheet-header-top">
+            <p className="page__eyebrow">Note details</p>
+            <Button size="sm" variant="secondary" onClick={() => setIsFormOpen(true)}>
               <Icon className="button__icon" name="edit" />
               Edit note
             </Button>
           </div>
+          <span className="note-details-page__updated-badge">
+            Updated {formatDateTime(note.updated_at)}
+          </span>
+          <h1 className="page__title">{note.title}</h1>
+          <p className="page__subtitle">Review note content and open the files already linked to this note.</p>
         </div>
 
         <div className="note-details-page__sheet-body">

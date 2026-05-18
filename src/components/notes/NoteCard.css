@@ -1,114 +1,390 @@
+/* ─── Dynamic category colour tokens (driven by --note-hue from JS) ─────────── */
+
 .note-card {
+  --cat-bg:     hsl(var(--note-hue, 172), 55%, 94%);
+  --cat-border: hsl(var(--note-hue, 172), 45%, 82%);
+  --cat-text:   hsl(var(--note-hue, 172), 50%, 32%);
+  --cat-strip:  hsl(var(--note-hue, 172), 60%, 58%);
+}
+
+/* ─── Card container ───────────────────────────────────────────────────────── */
+
+.note-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-height: 246px;
-  padding: 18px 20px 16px;
-  border-radius: 18px;
+  gap: 13px;
+  padding: 18px 18px 16px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(216, 222, 234, 0.88);
+  box-shadow:
+    0 1px 3px rgba(44, 58, 84, 0.04),
+    0 8px 24px rgba(44, 58, 84, 0.07);
+  cursor: pointer;
+  overflow: hidden;
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+  animation: note-card-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .note-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 42px rgba(31, 41, 55, 0.08);
-  border-color: rgba(13, 148, 136, 0.2);
+  transform: translateY(-3px);
+  box-shadow:
+    0 4px 12px rgba(44, 58, 84, 0.07),
+    0 20px 48px rgba(44, 58, 84, 0.11);
+  border-color: hsl(var(--note-hue, 172), 40%, 78%);
+}
+
+.note-card:active {
+  transform: scale(0.985);
+  box-shadow:
+    0 1px 4px rgba(44, 58, 84, 0.06),
+    0 4px 12px rgba(44, 58, 84, 0.08);
+  transition-duration: 80ms;
 }
 
 .note-card:focus-visible {
-  outline: 3px solid rgba(13, 148, 136, 0.18);
+  outline: 2px solid hsl(var(--note-hue, 172), 55%, 52%);
   outline-offset: 3px;
 }
+
+@keyframes note-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Pinned state ─────────────────────────────────────────────────────────── */
+
+.note-card--pinned {
+  border-color: hsl(var(--note-hue, 172), 45%, 76%);
+  background: linear-gradient(
+    160deg,
+    hsl(var(--note-hue, 172), 60%, 98%) 0%,
+    rgba(255, 255, 255, 0.97) 60%
+  );
+}
+
+/* Subtle left accent strip for pinned cards */
+.note-card__pin-strip {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 3px;
+  height: calc(100% - 28px);
+  border-radius: 0 3px 3px 0;
+  background: var(--cat-strip);
+  opacity: 0.55;
+}
+
+/* ─── Top row ──────────────────────────────────────────────────────────────── */
 
 .note-card__topline {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-}
-
-.note-card__topline-actions {
-  display: flex;
-  align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
-.note-card__pin-action-icon {
-  width: 0.95rem;
-  height: 0.95rem;
-}
+/* ─── Category badge ───────────────────────────────────────────────────────── */
 
-.note-card__category,
-.note-card__pin {
+.note-card__category {
   display: inline-flex;
   align-items: center;
   min-height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--cat-bg);
+  color: var(--cat-text);
+  border: 1px solid var(--cat-border);
+  white-space: nowrap;
+}
+
+/* ─── Pin controls ─────────────────────────────────────────────────────────── */
+
+.note-card__pin-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.note-card__pin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(216, 222, 234, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.note-card__pin-btn:hover:not(:disabled) {
+  background: var(--cat-bg);
+  border-color: var(--cat-border);
+  color: var(--cat-text);
+  transform: scale(1.04);
+}
+
+.note-card__pin-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.note-card__pin-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.note-card__pin-btn--active {
+  background: var(--cat-bg);
+  border-color: var(--cat-border);
+  color: var(--cat-text);
+}
+
+.note-card__pin-icon {
+  width: 0.78rem;
+  height: 0.78rem;
+  flex-shrink: 0;
+}
+
+/* ─── Pinned badge ─────────────────────────────────────────────────────────── */
+
+.note-card__pinned-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 22px;
   padding: 0 8px;
-  border-radius: 6px;
-  font-size: 0.68rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.note-card__category {
-  background: rgba(13, 148, 136, 0.14);
-  color: var(--primary);
-}
-
-.note-card__category--muted {
-  background: rgba(31, 41, 55, 0.08);
-  color: var(--text-muted);
-}
-
-.note-card__pin {
   background: rgba(31, 41, 55, 0.06);
   color: var(--text-muted);
+  border: 1px solid rgba(216, 222, 234, 0.8);
 }
+
+.note-card__pinned-badge-icon {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex-shrink: 0;
+}
+
+/* ─── Title ────────────────────────────────────────────────────────────────── */
 
 .note-card__title {
   margin: 0;
-  color: var(--heading);
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  line-height: 1.35;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.32;
+  color: var(--heading);
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+
+/* ─── Preview / description ────────────────────────────────────────────────── */
+
+.note-card__preview-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .note-card__preview {
   margin: 0;
+  font-size: 0.9rem;
   color: var(--text);
-  line-height: 1.55;
-  font-size: 0.98rem;
+  line-height: 1.62;
+  overflow-wrap: anywhere;
 }
 
-.note-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  flex-shrink: 0;
+.note-card__preview--empty {
+  color: var(--text-muted);
 }
 
-.note-card__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid rgba(216, 222, 234, 0.9);
+.note-card__read-more {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cat-text);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 150ms ease;
 }
+
+.note-card__read-more:hover {
+  opacity: 0.75;
+}
+
+/* ─── Divider ──────────────────────────────────────────────────────────────── */
+
+.note-card__divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--note-hue, 172), 30%, 88%) 0%,
+    rgba(216, 222, 234, 0.4) 100%
+  );
+  border-radius: 999px;
+  margin: 0 -2px;
+}
+
+/* ─── Metadata row ─────────────────────────────────────────────────────────── */
 
 .note-card__meta {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 10px 14px;
+  gap: 8px 16px;
 }
 
-@media (max-width: 720px) {
+.note-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.note-card__meta-icon {
+  width: 0.82rem;
+  height: 0.82rem;
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+
+/* ─── Action buttons ───────────────────────────────────────────────────────── */
+
+.note-card__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Override Button base to apply tinted backgrounds */
+.note-card__action-btn {
+  flex: 1;
+  border-radius: 12px !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  min-height: 38px !important;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+.note-card__action-btn--edit {
+  background: rgba(122, 116, 255, 0.09) !important;
+  border-color: rgba(122, 116, 255, 0.22) !important;
+  color: #5b54d6 !important;
+}
+
+.note-card__action-btn--edit:hover:not(:disabled) {
+  background: rgba(122, 116, 255, 0.15) !important;
+  border-color: rgba(122, 116, 255, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(122, 116, 255, 0.14) !important;
+}
+
+.note-card__action-btn--delete {
+  background: rgba(205, 45, 45, 0.07) !important;
+  border-color: rgba(205, 45, 45, 0.18) !important;
+  color: #b83232 !important;
+}
+
+.note-card__action-btn--delete:hover:not(:disabled) {
+  background: rgba(205, 45, 45, 0.13) !important;
+  border-color: rgba(205, 45, 45, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(205, 45, 45, 0.12) !important;
+}
+
+/* ─── Responsive: very small (< 380px) ─────────────────────────────────────── */
+
+@media (max-width: 380px) {
   .note-card {
-    min-height: 0;
+    padding: 15px 14px 13px;
+    gap: 11px;
+  }
+
+  .note-card__title {
+    font-size: 1rem;
+  }
+
+  .note-card__topline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .note-card__actions {
+    flex-direction: column;
+  }
+
+  .note-card__action-btn {
+    width: 100%;
+  }
+}
+
+/* ─── Responsive: mobile (381px – 640px) ───────────────────────────────────── */
+
+@media (min-width: 381px) and (max-width: 640px) {
+  .note-card {
+    padding: 16px 16px 14px;
+  }
+
+  .note-card__title {
+    font-size: 1.04rem;
+  }
+}
+
+/* ─── Responsive: tablet and up (> 640px) ──────────────────────────────────── */
+
+@media (min-width: 641px) {
+  .note-card {
+    padding: 20px 20px 17px;
+    gap: 14px;
+  }
+
+  .note-card__title {
+    font-size: 1.12rem;
+  }
+
+  .note-card__action-btn {
+    flex: 0 0 auto;
+    min-width: 96px;
   }
 }

@@ -60,11 +60,30 @@
 
 .note-details-page__sheet-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
   padding: 22px 24px;
   border-bottom: 1px solid rgba(216, 222, 234, 0.95);
+}
+
+.note-details-page__sheet-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.note-details-page__updated-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(13, 148, 136, 0.09);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
 }
 
 .note-details-page__sheet-body {
@@ -86,13 +105,13 @@
 
 .note-details__meta-grid {
   display: grid;
-  gap: 18px;
+  gap: 14px 18px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .note-details__label {
   margin: 0;
-  font-size: 0.84rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -100,9 +119,10 @@
 }
 
 .note-details__value {
-  margin: 10px 0 0;
+  margin: 4px 0 0;
   color: var(--heading);
   font-weight: 700;
+  font-size: 0.92rem;
 }
 
 .note-details__content {
@@ -139,14 +159,11 @@
 @media (max-width: 640px) {
   .note-details-page__sheet-header,
   .note-details-page__sheet-body {
-    padding: 18px;
-  }
-
-  .note-details-page__sheet-header {
-    flex-direction: column;
+    padding: 16px;
   }
 
   .note-details__meta-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
   }
 }

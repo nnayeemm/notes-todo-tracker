@@ -3,13 +3,17 @@ import type { ReactNode, SVGProps } from 'react'
 type IconName =
   | 'add'
   | 'arrowBack'
+  | 'calendar'
   | 'checkCircle'
+  | 'checkmark'
   | 'close'
   | 'delete'
   | 'edit'
   | 'error'
+  | 'externalLink'
   | 'link'
   | 'note'
+  | 'paperclip'
   | 'pin'
   | 'search'
   | 'success'
@@ -34,6 +38,15 @@ const iconMap: Record<IconName, ReactNode> = {
       <path d="M9 12h10" />
     </>
   ),
+  calendar: (
+    <>
+      <rect x="3" y="4" width="18" height="17" rx="3" />
+      <path d="M3 9h18" />
+      <path d="M8 2v4" />
+      <path d="M16 2v4" />
+    </>
+  ),
+  checkmark: <path d="M4 12.5 9 17.5 20 6.5" />,
   checkCircle: (
     <>
       <circle cx="12" cy="12" r="8.5" />
@@ -68,6 +81,13 @@ const iconMap: Record<IconName, ReactNode> = {
       <path d="M12 16h.01" />
     </>
   ),
+  externalLink: (
+    <>
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+    </>
+  ),
   link: (
     <>
       <path d="m10 14 4-4" />
@@ -82,6 +102,9 @@ const iconMap: Record<IconName, ReactNode> = {
       <path d="M9 12h6" />
       <path d="M9 15.5h4.5" />
     </>
+  ),
+  paperclip: (
+    <path d="M21.44 11.05 12.25 20.24a5.5 5.5 0 0 1-7.78-7.78l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95L9.41 17.41a1.5 1.5 0 0 1-2.12-2.12l8.49-8.48" />
   ),
   pin: <path d="M7 4.75h10a1 1 0 0 1 1 1v13.5L12 16l-6 3.25V5.75a1 1 0 0 1 1-1Z" />,
   search: (

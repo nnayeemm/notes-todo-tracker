@@ -9,14 +9,16 @@ interface NotesListProps {
   onEdit: (note: NoteSummary) => void
   onOpen: (noteId: number) => void
   onTogglePin: (note: NoteSummary) => void
+  togglingPinId?: number | null
 }
 
-export function NotesList({ notes, onCreate, onDelete, onEdit, onOpen, onTogglePin }: NotesListProps) {
+export function NotesList({ notes, onCreate, onDelete, onEdit, onOpen, onTogglePin, togglingPinId }: NotesListProps) {
   return (
     <div className="notes-list">
       {notes.map((note) => (
         <NoteCard
           key={note.id}
+          isTogglingPin={togglingPinId === note.id}
           note={note}
           onDelete={onDelete}
           onEdit={onEdit}

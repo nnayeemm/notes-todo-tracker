@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Icon } from '../ui/Icon'
 import './AppShell.css'
@@ -9,15 +10,99 @@ const navItems = [
 
 export function AppShell() {
   const location = useLocation()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const sidebarRef = useRef<HTMLElement>(null)
+  const burgerRef = useRef<HTMLButtonElement>(null)
+
   const activeView = location.pathname.startsWith('/todos') ? 'Tasks' : 'Notes'
   const activeCopy =
     activeView === 'Tasks'
       ? 'Filter tasks, toggle progress, and jump straight into any linked note.'
       : 'Create notes, pin key ideas, and open note details without leaving the workspace.'
 
+  // Close on route change
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [location.pathname])
+
+  // Body scroll lock
+  useEffect(() => {
+    document.body.classList.toggle('body--no-scroll', sidebarOpen)
+    return () => document.body.classList.remove('body--no-scroll')
+  }, [sidebarOpen])
+
+  // Escape key to close
+  useEffect(() => {
+    if (!sidebarOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false)
+        burgerRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [sidebarOpen])
+
+  // Focus first focusable element in sidebar when it opens
+  useEffect(() => {
+    if (!sidebarOpen) return
+    const firstFocusable = sidebarRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    firstFocusable?.focus()
+  }, [sidebarOpen])
+
+  const close = () => {
+    setSidebarOpen(false)
+    burgerRef.current?.focus()
+  }
+
   return (
     <div className="app-shell">
-      <aside className="app-shell__sidebar">
+      {/* Hamburger — mobile only */}
+      <button
+        ref={burgerRef}
+        aria-controls="app-sidebar"
+        aria-expanded={sidebarOpen}
+        aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        className={`app-shell__burger${sidebarOpen ? ' app-shell__burger--open' : ''}`}
+        onClick={() => setSidebarOpen((v) => !v)}
+        type="button"
+      >
+        <span className="app-shell__burger-bar" />
+        <span className="app-shell__burger-bar" />
+        <span className="app-shell__burger-bar" />
+      </button>
+
+      {/* Overlay — mobile only */}
+      {sidebarOpen && (
+        <div
+          aria-hidden="true"
+          className="app-shell__overlay"
+          onClick={close}
+        />
+      )}
+
+      <aside
+        ref={sidebarRef}
+        id="app-sidebar"
+        className={`app-shell__sidebar${sidebarOpen ? ' app-shell__sidebar--open' : ''}`}
+        aria-label="Main navigation"
+      >
+        {/* Mobile-only drawer header with close button */}
+        <div className="app-shell__drawer-header">
+          <span className="app-shell__drawer-label">Menu</span>
+          <button
+            aria-label="Close sidebar"
+            className="app-shell__drawer-close"
+            onClick={close}
+            type="button"
+          >
+            <Icon className="app-shell__drawer-close-icon" name="close" />
+          </button>
+        </div>
+
         <div className="app-shell__brand">
           <p className="app-shell__kicker">Productivity</p>
           <h1 className="app-shell__title">Personal Workspace</h1>

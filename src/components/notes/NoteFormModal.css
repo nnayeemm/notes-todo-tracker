@@ -4,23 +4,78 @@
   gap: 18px;
 }
 
-.note-form__checkbox {
+/* ─── Pin toggle in modal header ─────────────────────────────────────────────────── */
+
+.note-form__pin-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface-muted);
-  width: fit-content;
-  font-weight: 600;
-  color: var(--heading);
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.note-form__checkbox input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary);
+.note-form__pin-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.note-form__pin-icon {
+  width: 0.78rem;
+  height: 0.78rem;
+  flex-shrink: 0;
+}
+
+.note-form__toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.note-form__toggle-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(180, 188, 202, 0.55);
+  border: 1px solid rgba(180, 188, 202, 0.4);
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease;
+  flex-shrink: 0;
+}
+
+.note-form__toggle-track--on {
+  background: var(--primary);
+  border-color: var(--primary-strong);
+}
+
+.note-form__toggle-thumb {
+  position: absolute;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.note-form__toggle-track--on .note-form__toggle-thumb {
+  transform: translateX(18px);
+}
+
+.note-form__pin-toggle:focus-within .note-form__toggle-track {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .note-form__attachments {

@@ -7,11 +7,13 @@ import type {
   TodoUpdatePayload,
 } from '../../types/api'
 import { toDateTimeInputValue, toIsoDateTime } from '../../utils/format'
-import { Button } from '../ui/Button'
+
 import { ErrorMessage } from '../ui/ErrorMessage'
+import { Icon } from '../ui/Icon'
 import { Input } from '../ui/Input'
 import { Modal } from '../ui/Modal'
 import './TodoFormModal.css'
+
 
 interface TodoFormModalProps {
   initialValues: Todo | null
@@ -35,7 +37,6 @@ export function TodoFormModal({
   const [priority, setPriority] = useState<Priority>(initialValues?.priority ?? 'medium')
   const [dueDate, setDueDate] = useState(toDateTimeInputValue(initialValues?.due_date))
   const [noteId, setNoteId] = useState(initialValues?.note_id ? String(initialValues.note_id) : '')
-  const [isCompleted, setIsCompleted] = useState(initialValues?.is_completed ?? false)
   const [formError, setFormError] = useState('')
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,10 +59,7 @@ export function TodoFormModal({
       }
 
       if (initialValues) {
-        await onSubmit({
-          ...basePayload,
-          is_completed: isCompleted,
-        })
+        await onSubmit(basePayload)
         return
       }
 
@@ -78,12 +76,23 @@ export function TodoFormModal({
       description="create or update task records / to-do."
       footer={
         <>
-          <Button variant="secondary" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button form="todo-form" isLoading={isSubmitting} type="submit">
-            {initialValues ? 'Save todo' : 'Create todo'}
-          </Button>
+          <button
+            aria-label="Cancel"
+            className="modal-icon-btn modal-icon-btn--cancel"
+            onClick={onClose}
+            type="button"
+          >
+            <Icon name="close" className="modal-icon-btn__icon" />
+          </button>
+          <button
+            aria-label={isSubmitting ? 'Saving…' : initialValues ? 'Save todo' : 'Create todo'}
+            className="modal-icon-btn modal-icon-btn--save"
+            disabled={isSubmitting}
+            form="todo-form"
+            type="submit"
+          >
+            <Icon name={isSubmitting ? 'undo' : 'checkmark'} className="modal-icon-btn__icon" />
+          </button>
         </>
       }
       isOpen={isOpen}
@@ -164,19 +173,7 @@ export function TodoFormModal({
           </label>
         </div>
 
-        {initialValues ? (
-          <label className="todo-form__checkbox">
-            <input
-              checked={isCompleted}
-              onChange={(event) => {
-                setFormError('')
-                setIsCompleted(event.target.checked)
-              }}
-              type="checkbox"
-            />
-            <span>{isCompleted ? 'Completed' : 'Open'}</span>
-          </label>
-        ) : null}
+
       </form>
     </Modal>
   )

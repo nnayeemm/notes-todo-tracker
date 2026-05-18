@@ -29,6 +29,7 @@ export function NotesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [noteToDelete, setNoteToDelete] = useState<NoteSummary | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [togglingPinNoteId, setTogglingPinNoteId] = useState<number | null>(null)
 
   const deferredSearchTerm = useDeferredValue(searchTerm)
 
@@ -169,7 +170,7 @@ export function NotesPage() {
 
   const handleTogglePin = async (note: NoteSummary) => {
     try {
-      setIsSubmitting(true)
+      setTogglingPinNoteId(note.id)
       await notesService.updateNote(note.id, {
         title: note.title,
         content: note.content,
@@ -186,7 +187,7 @@ export function NotesPage() {
         caughtError instanceof Error ? caughtError.message : 'Unable to pin or unpin the note.'
       showToast({ message, type: 'error' })
     } finally {
-      setIsSubmitting(false)
+      setTogglingPinNoteId(null)
     }
   }
 
@@ -244,6 +245,7 @@ export function NotesPage() {
       ) : (
         <NotesList
           notes={filteredNotes}
+          togglingPinId={togglingPinNoteId}
           onCreate={() => {
             setEditingNote(null)
             setEditingAttachments([])

@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { NoteSummary, Todo } from '../../types/api'
-import { formatDateTime, truncateText } from '../../utils/format'
+import { formatDateTime } from '../../utils/format'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/Icon'
 import './TodoCard.css'
+
+const DESCRIPTION_LIMIT = 140
 
 interface TodoCardProps {
   isCompleting: boolean
@@ -22,7 +25,23 @@ export function TodoCard({
   onEdit,
   todo,
 }: TodoCardProps) {
-  const priorityVariant =
+  const [expanded, setExpanded] = useState(false)
+
+  const description = todo.description ?? ''
+  const isTruncatable = description.length > DESCRIPTION_LIMIT
+  const displayedDescription =
+    isTruncatable && !expanded
+      ? `${description.slice(0, DESCRIPTION_LIMIT).trimEnd()}…`
+      : description
+
+  const priorityClass =
+    todo.priority === 'high'
+      ? 'todo-card--high'
+      : todo.priority === 'medium'
+        ? 'todo-card--medium'
+        : 'todo-card--low'
+
+  const priorityChipClass =
     todo.priority === 'high'
       ? 'status-chip--danger'
       : todo.priority === 'medium'
@@ -30,59 +49,117 @@ export function TodoCard({
         : 'status-chip--success'
 
   return (
-    <article className={`todo-card surface ${todo.is_completed ? 'todo-card--completed' : ''}`}>
-      <button
-        aria-label={todo.is_completed ? 'Unmark todo complete' : 'Mark todo complete'}
-        className={`todo-card__toggle ${todo.is_completed ? 'todo-card__toggle--done' : ''}`}
-        disabled={isCompleting}
-        onClick={() => onComplete(todo)}
-        type="button"
-      >
-        <Icon className="todo-card__toggle-icon" name={todo.is_completed ? 'undo' : 'checkCircle'} />
-      </button>
+    <article
+      className={`todo-card surface ${priorityClass} ${todo.is_completed ? 'todo-card--completed' : ''}`}
+    >
+      {/* Priority accent bar */}
+      <div className="todo-card__accent" aria-hidden="true" />
 
-      <div className="todo-card__body">
-        <div className="todo-card__topline">
-          <div className="todo-card__text">
-            <h2 className="todo-card__title">{todo.title}</h2>
-            <p className="todo-card__description">
-              {todo.description ? truncateText(todo.description) : 'No description provided.'}
-            </p>
-          </div>
+      {/* Header row: toggle + title + priority badge */}
+      <div className="todo-card__header">
+        <button
+          aria-label={todo.is_completed ? 'Unmark todo complete' : 'Mark todo complete'}
+          className={`todo-card__toggle ${todo.is_completed ? 'todo-card__toggle--done' : ''}`}
+          disabled={isCompleting}
+          onClick={() => onComplete(todo)}
+          type="button"
+        >
+          <Icon
+            className="todo-card__toggle-icon"
+            name={todo.is_completed ? 'undo' : 'checkCircle'}
+          />
+        </button>
 
-          <div className="todo-card__side">
-            <span className={`status-chip ${priorityVariant}`}>{todo.priority}</span>
-            <div className="todo-card__actions">
-              <Button size="sm" variant="ghost" onClick={() => onEdit(todo)}>
-                <Icon className="button__icon" name="edit" />
-                Edit
-              </Button>
-              <Button size="sm" variant="secondary" onClick={() => onDelete(todo)}>
-                <Icon className="button__icon" name="delete" />
-                Delete
-              </Button>
-            </div>
-          </div>
+        <div className="todo-card__header-text">
+          <h2 className="todo-card__title">{todo.title}</h2>
         </div>
 
-        <div className="todo-card__footer">
-          <span className="meta-text">Due: {formatDateTime(todo.due_date)}</span>
-          {linkedNote ? (
-            <Link className="todo-card__linked-note" to={`/notes/${linkedNote.id}?from=todos`}>
-              <Icon className="todo-card__linked-note-icon" name="link" />
-              <span className="todo-card__linked-note-label">Linked note</span>
-              <span className="todo-card__linked-note-title">
-                #{linkedNote.id} {linkedNote.title}
-              </span>
-            </Link>
-          ) : (
-            <span className="meta-text">No linked note</span>
+        <span className={`status-chip todo-card__priority-badge ${priorityChipClass}`}>
+          {todo.priority}
+        </span>
+      </div>
+
+      {/* Description */}
+      {description ? (
+        <div className="todo-card__description-wrap">
+          <p className="todo-card__description">{displayedDescription}</p>
+          {isTruncatable && (
+            <button
+              className="todo-card__read-more"
+              onClick={() => setExpanded((v) => !v)}
+              type="button"
+            >
+              {expanded ? 'Show less' : 'Read more'}
+            </button>
           )}
-          <span className="meta-text">
-            {todo.is_completed ? `Completed ${formatDateTime(todo.updated_at)}` : 'Open'}
+        </div>
+      ) : (
+        <p className="todo-card__description todo-card__description--empty">
+          No description provided.
+        </p>
+      )}
+
+      {/* Action buttons */}
+      <div className="todo-card__actions">
+        <Button
+          className="todo-card__action-btn todo-card__action-btn--edit"
+          size="sm"
+          variant="ghost"
+          onClick={() => onEdit(todo)}
+        >
+          <Icon className="button__icon" name="edit" />
+          Edit
+        </Button>
+        <Button
+          className="todo-card__action-btn todo-card__action-btn--delete"
+          size="sm"
+          variant="secondary"
+          onClick={() => onDelete(todo)}
+        >
+          <Icon className="button__icon" name="delete" />
+          Delete
+        </Button>
+      </div>
+
+      {/* Footer: due date · linked note · status */}
+      <footer className="todo-card__footer">
+        <div className="todo-card__footer-row">
+          <span className="todo-card__meta-item">
+            <Icon className="todo-card__meta-icon" name="pin" />
+            Due: {formatDateTime(todo.due_date)}
+          </span>
+
+          <span className="todo-card__status-badge">
+            {todo.is_completed ? 'Completed' : 'Open'}
           </span>
         </div>
-      </div>
+
+        {linkedNote ? (
+          <Link
+            className="todo-card__linked-note"
+            to={`/notes/${linkedNote.id}?from=todos`}
+          >
+            <span className="todo-card__linked-note-left">
+              <Icon className="todo-card__linked-note-icon" name="link" />
+              <span className="todo-card__linked-note-label">Linked note</span>
+            </span>
+            <span className="todo-card__linked-note-title">
+              #{linkedNote.id} {linkedNote.title}
+            </span>
+          </Link>
+        ) : (
+          <span className="todo-card__no-link">
+            <Icon className="todo-card__meta-icon" name="link" />
+            No linked note
+          </span>
+        )}
+
+        {todo.is_completed && (
+          <p className="todo-card__completed-at">
+            Completed {formatDateTime(todo.updated_at)}
+          </p>
+        )}
+      </footer>
     </article>
   )
 }
