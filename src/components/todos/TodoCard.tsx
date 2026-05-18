@@ -86,11 +86,16 @@ export function TodoCard({
           {isTruncatable && (
             <button
               className="todo-card__read-more"
-              onClick={() => setExpanded((v) => !v)}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setExpanded((v) => !v)
+              }}
               type="button"
             >
               {expanded ? 'Show less' : 'Read more'}
             </button>
+
           )}
         </div>
       ) : (

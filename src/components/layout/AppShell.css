@@ -57,12 +57,17 @@
 
 .app-shell__title {
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-heading);
   font-size: 1.2rem;
   line-height: 1.35;
   color: #24344f;
   overflow-wrap: anywhere;
 }
+
+
 
 .app-shell__copy {
   margin: 0;

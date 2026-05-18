@@ -34,10 +34,10 @@ export function TodosList({
           onDelete={onDelete}
           onEdit={onEdit}
           todo={todo}
-          
         />
-        
-      ))}      <AddNewTodoCard onClick={onCreateNew} />
+      ))}
+      <AddNewTodoCard onClick={onCreateNew} />
+
 
     </div>
   )

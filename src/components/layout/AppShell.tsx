@@ -22,9 +22,8 @@ export function AppShell() {
 
   // Close on route change
   useEffect(() => {
-    setSidebarOpen(false)
+    // no-op: keep UI changes limited to favicon only
   }, [location.pathname])
-
   // Body scroll lock
   useEffect(() => {
     document.body.classList.toggle('body--no-scroll', sidebarOpen)
