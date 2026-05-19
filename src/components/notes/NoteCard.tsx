@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import type { KeyboardEvent } from 'react'
 import type { NoteSummary } from '../../types/api'
 import { formatDateTime } from '../../utils/format'
 import { Button } from '../ui/Button'
@@ -39,18 +38,21 @@ interface NoteCardProps {
   onTogglePin: (note: NoteSummary) => void
 }
 
+
+
 export function NoteCard({
   isTogglingPin = false,
   note,
   onDelete,
   onEdit,
-  onOpen,
   onTogglePin,
 }: NoteCardProps) {
   const [expanded, setExpanded] = useState(false)
 
   const content = note.content ?? ''
+
   const isTruncatable = content.length > PREVIEW_LIMIT
+
   const displayedContent =
     isTruncatable && !expanded
       ? `${content.slice(0, PREVIEW_LIMIT).trimEnd()}…`
@@ -59,22 +61,10 @@ export function NoteCard({
   const hue = getCategoryHue(note.category)
   const categoryLabel = note.category ?? 'General'
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      onOpen(note.id)
-    }
-  }
-
   return (
     <article
       className={`note-card${note.is_pinned ? ' note-card--pinned' : ''}`}
-      onClick={() => onOpen(note.id)}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
       style={{ '--note-hue': hue } as React.CSSProperties}
-      aria-label={`Open note: ${note.title}`}
     >
       {/* Pinned glow strip */}
       {note.is_pinned && <div className="note-card__pin-strip" aria-hidden="true" />}
