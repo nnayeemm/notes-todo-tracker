@@ -12,6 +12,7 @@ type IconName =
   | 'error'
   | 'externalLink'
   | 'link'
+  | 'logout'
   | 'note'
   | 'paperclip'
   | 'pin'
@@ -93,6 +94,13 @@ const iconMap: Record<IconName, ReactNode> = {
       <path d="m10 14 4-4" />
       <path d="m7.5 14.5-2.1 2.1a3 3 0 1 0 4.2 4.2l2.1-2.1" />
       <path d="m16.5 9.5 2.1-2.1a3 3 0 1 0-4.2-4.2l-2.1 2.1" />
+    </>
+  ),
+  logout: (
+    <>
+      <path d="M10 6H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4" />
+      <path d="M14 16l4-4-4-4" />
+      <path d="M18 12H9" />
     </>
   ),
   note: (

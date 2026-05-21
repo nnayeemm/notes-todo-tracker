@@ -250,7 +250,18 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
+}
+
+/* When the card is expanded, disable the clamp so full content shows */
+.note-card--expanded .note-card__preview {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  -webkit-box-orient: unset;
+  overflow: visible;
+  max-height: none;
 }
 
 

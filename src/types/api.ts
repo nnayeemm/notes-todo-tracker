@@ -4,6 +4,23 @@ export interface ApiMessage {
   message: string
 }
 
+export interface AuthUser {
+  id?: number
+  email: string
+  username: string
+}
+
+export interface LoginResponse {
+  access_token: string
+  token_type?: string
+}
+
+export interface RegisterPayload {
+  email: string
+  username: string
+  password: string
+}
+
 export interface Attachment {
   id: number
   note_id: number

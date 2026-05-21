@@ -45,6 +45,7 @@ export function NoteCard({
   note,
   onDelete,
   onEdit,
+  onOpen,
   onTogglePin,
 }: NoteCardProps) {
   const [expanded, setExpanded] = useState(false)
@@ -63,8 +64,17 @@ export function NoteCard({
 
   return (
     <article
-      className={`note-card${note.is_pinned ? ' note-card--pinned' : ''}`}
+      className={`note-card${note.is_pinned ? ' note-card--pinned' : ''}${expanded ? ' note-card--expanded' : ''}`}
       style={{ '--note-hue': hue } as React.CSSProperties}
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(note.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onOpen(note.id)
+        }
+      }}
     >
       {/* Pinned glow strip */}
       {note.is_pinned && <div className="note-card__pin-strip" aria-hidden="true" />}
@@ -78,6 +88,7 @@ export function NoteCard({
         <div
           className="note-card__pin-controls"
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
         >
           <button
             aria-label={note.is_pinned ? 'Unpin note' : 'Pin note'}

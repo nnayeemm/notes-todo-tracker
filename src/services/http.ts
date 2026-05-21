@@ -1,5 +1,10 @@
-const fallbackBaseUrl =
-  'https://notes-todo-tracker-backend.onrender.com'
+import {
+  clearStoredAccessToken,
+  getStoredAccessToken,
+  notifyUnauthorized,
+} from './authToken'
+
+const fallbackBaseUrl = 'http://localhost:8000'
 export const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ?? fallbackBaseUrl
 ).replace(/\/$/, '')
@@ -64,8 +69,18 @@ function getErrorMessage(payload: unknown, status: number) {
 export async function request<T>(path: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers)
   const isFormData = init.body instanceof FormData
+  const isUrlEncoded = init.body instanceof URLSearchParams
+  const token = getStoredAccessToken()
 
-  if (!isFormData && init.body && !headers.has('Content-Type')) {
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`)
+  }
+
+  if (isUrlEncoded && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/x-www-form-urlencoded')
+  }
+
+  if (!isFormData && !isUrlEncoded && init.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
   }
 
@@ -80,6 +95,11 @@ export async function request<T>(path: string, init: RequestInit = {}) {
     : await response.text()
 
   if (!response.ok) {
+    if (response.status === 401) {
+      clearStoredAccessToken()
+      notifyUnauthorized()
+    }
+
     throw new ApiError(response.status, getErrorMessage(payload, response.status))
   }
 
