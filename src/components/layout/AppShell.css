@@ -330,9 +330,16 @@
 @media (max-width: 768px) {
   /* Shell becomes single column with header offset */
 
-
+  .app-shell__brand {
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
   .app-shell {
+
     grid-template-columns: 1fr;
     grid-template-rows: 62px 1fr;
   }
